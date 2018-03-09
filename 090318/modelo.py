@@ -13,3 +13,6 @@ class Aniversariante:
 	def csv2OBJ(self, linha):
 		aux = linha.strip().split(";")
 		return Aniversariante(aux[0], aux[1], int(aux[2]), int(aux[3]))
+
+	def __repr__(self):
+		return self.nome

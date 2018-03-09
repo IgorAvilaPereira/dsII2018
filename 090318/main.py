@@ -1,4 +1,5 @@
 import sys
+import os
 from persistencia import *
 from modelo import *
 
@@ -8,7 +9,7 @@ if __name__ == '__main__':
 	#arquivo.close()
 
 	aniversarianteDAO = AniversarianteDAO()
-	#aniversarianteDAO.adicionar(Aniversariante("666","Andreyna", 17, 3))
+	#aniversarianteDAO.adicionar(Aniversariante("888","Igor", 31, 1))
 	#aniversarianteDAO.adicionar(Aniversariante("190","beck love", 19, 5))
 	"""
 	vet = aniversarianteDAO.listar()
@@ -20,6 +21,16 @@ if __name__ == '__main__':
 	#vet = aniversarianteDAO.listar()
 	#for n in vet:
 	#	print n.nome
-	aniversarianteDAO.listarMes(5)
+	'''
+	aniversariante = aniversarianteDAO.obter("190")
+	aniversariante.nome = "Vinicius Beck"
+	aniversarianteDAO.editar(aniversariante)
+	'''
+	#aniversarianteDAO.redirecionar()
+	#aniversarianteDAO.adicionar(Aniversariante("222","ana", 40, 1))
+	#aniversarianteDAO.redirecionar()
+
+	aniversarianteDAO.gravarOrdemAlfabetica()
+
 
 
