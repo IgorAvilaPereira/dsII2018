@@ -25,11 +25,12 @@ def antes_da_rota():
 	print "antes.................."
 	print request.path
 	print "============================="
+	# somente as rotas / e /login sao publicas. Para as demais rotas eh preciso estar, previamente, logado (sessao criada e setada)
 	if request.path != '/' and request.path != '/login':
 		if 'login' not in session and 'senha' not in session:		
 			return render_template("erro.html", mensagem = "operacao proibida")
 
-
+# somente por form (method post) que os dados devem ser direcionados para esta rota.
 @app.route("/login", methods = ['POST'])
 def login():
 	login = request.form['login']
@@ -40,8 +41,6 @@ def login():
 		return redirect(url_for("index"))
 	else:
 		return render_template("erro.html", mensagem = "login invalido...")
-		# return redirect(url_for("tela_login"))
-
 
 @app.route("/index")
 def index():
@@ -50,16 +49,42 @@ def index():
 
 @app.route("/upload", methods = ['POST'])
 def upload():
+
 	jogador = Jogador()
 	jogador.nome = str(request.form['nome'])
 	jogadorDAO = JogadorDAO()
-	id = jogadorDAO.adicionarNome(jogador)
-	jogador.id = id
-	f = request.files['arquivo']
-	# f.save(app.config['UPLOAD_FOLDER'] + f.filename)
-	f.save(app.config['UPLOAD_FOLDER'] + str(id) + ".png")
-	jogador.foto = str(id) + ".png"
-	jogadorDAO.alterar(jogador)
+	
+
+	# se ha arquivo vindo do form
+	if ('arquivo' in request.files):
+
+		f = request.files['arquivo']	
+		
+		# mantendo o nome do arquivo
+		# f.save(app.config['UPLOAD_FOLDER'] + f.filename)
+		
+		# renomeando o arquivo de acordo com o id do jogador (dado pelo sgbd)
+		# neste caso todas as imagens ficaram com a extensao .png. Caso nao seja o desejado - eh preciso extrair do arquivo sua extensao ou validar as extensoes validas
+		extensao = f.filename.rsplit('.', 1)[1].lower()
+
+		if (extensao == 'png' or extensao == 'jpg' or extensao == 'jpeg'):
+				
+			jogador.id = jogadorDAO.adicionarNome(jogador)
+
+			f.save(app.config['UPLOAD_FOLDER'] + str(jogador.id) + "." + extensao)
+
+			# atualizando o objeto jogador (da memoria) com o nome de sua imagem
+			jogador.foto = str(jogador.id) + "." + extensao
+			
+			# chamando o alterar a fim de atribuir o nome da foto a coluna que estava em branco
+			jogadorDAO.alterar(jogador)
+		
+		else:
+			return render_template("erro.html", mensagem = "formato de imagem nao suportado.")
+	else:
+		# adicionando o jogador sem imagem....
+		jogador.id = jogadorDAO.adicionarNome(jogador)		
+	
 	return redirect(url_for("index")) 
 
 
@@ -67,13 +92,21 @@ def upload():
 def excluir(id):
 	jogadorDAO = JogadorDAO()
 	jogador = jogadorDAO.obter(int(id))	
+	# caso o jogador tenha foto
 	if (jogador.foto):
-		os.remove(app.config['UPLOAD_FOLDER'] + jogador.foto)	
-	jogadorDAO.excluir(int(jogador.id))
+		try:
+			# eh preciso remover o arquivo (foto) do diretorio de arquivos
+			os.remove(app.config['UPLOAD_FOLDER'] + jogador.foto)				
+			jogadorDAO.excluir(int(jogador.id))
+		except Exception as e:			
+			return render_template("erro.html", mensagem = "imagem nao encontrada. nao foi possivel excluir o jogador...")			
+	else:
+		jogadorDAO.excluir(int(jogador.id))
 	return redirect(url_for("index"))
 
 
 if __name__ == '__main__':
+	# para arrumar os acentos (principalmente no windows)
 	reload(sys)
 	sys.setdefaultencoding('UTF-8')
 	app.run()

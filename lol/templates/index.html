@@ -23,9 +23,10 @@
 
 
 <form action="/upload" method="post" enctype="multipart/form-data">
-	Nome: <input type="text" name="nome">
+	Nome: <input type="text" name="nome" required="required">
 	<br>
-	<span class="importante">Foto: </span> <input type="file" name="arquivo">
+	<span class="importante">Foto: </span> 
+    <input type="file" name="arquivo">
 	<br>
 	<input type="submit" name="Adicionar">
 </form>    

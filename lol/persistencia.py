@@ -40,19 +40,13 @@ class JogadorDAO:
 		conn.close()
 		return vetJogador
 
-
-
-
 	def alterar(self, jogador):
 		conn = psycopg2.connect("dbname=lol host=localhost user=postgres password=postgres")
 		cur = conn.cursor()
 		cur.execute("UPDATE jogador SET nome = %s, foto = %s WHERE id = %s;", [str(jogador.nome), str(jogador.foto), jogador.id])
 		conn.commit()
-		# id = cur.fetchone()[0]
 		cur.close()
 		conn.close()
-		# return int(id)
-
 
 	def adicionarNome(self, jogador):
 		conn = psycopg2.connect("dbname=lol host=localhost user=postgres password=postgres")
