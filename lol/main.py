@@ -64,7 +64,6 @@ def upload():
 		# f.save(app.config['UPLOAD_FOLDER'] + f.filename)
 		
 		# renomeando o arquivo de acordo com o id do jogador (dado pelo sgbd)
-		# neste caso todas as imagens ficaram com a extensao .png. Caso nao seja o desejado - eh preciso extrair do arquivo sua extensao ou validar as extensoes validas
 		extensao = f.filename.rsplit('.', 1)[1].lower()
 
 		if (extensao == 'png' or extensao == 'jpg' or extensao == 'jpeg'):
