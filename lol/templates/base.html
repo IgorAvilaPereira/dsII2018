@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+    <link rel="stylesheet" href="./../static/css/style.css" />
+    <title>
+        {% block title %}
+
+        {% endblock %} 
+
+        - lol member
+    </title>
+    {% endblock %}
+</head>
+<body>
+
+    <h1> Cabeçalho </h1>
+
+    <div id="header">
+        {% block header %} {% endblock %}
+    </div>
+
+    <hr>
+
+    <div id="content">
+        {% block content %} {% endblock %}
+    </div>
+
+    <hr>
+    
+    <div id="footer">
+        &copy; Copyright 2018 by Igor corporation       
+    </div>
+</body>
+</html>

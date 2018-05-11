@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+
+{% block title %} Tela Adicionar {% endblock %}
+
+
+{% block head %}
+    {{ super() }}
+    <style type="text/css">
+        .importante { 
+        	background-color: green; 
+        }
+    </style>
+{% endblock %}
+
+
+
+{% block content %}
+
+<a href="/deslogar"> log-off </a> 
+
+<br>
+
+
+<form action="/upload" method="post" enctype="multipart/form-data">
+	Nome: <input type="text" name="nome">
+	<br>
+	<span class="importante">Foto: </span> <input type="file" name="arquivo">
+	<br>
+	<input type="submit" name="Adicionar">
+</form>    
+
+
+<table border="1">
+
+    {% for jogador in vetJogador: %}
+    <tr> 
+        <td> <a href="/excluir/{{jogador.id}}"> Excluir </a> </td>
+        {% if jogador.foto: %}
+        <td> <img src="./../static/arquivos/{{jogador.foto}}" height="100px" width="100px">
+        </td>
+        {% else: %}
+            <td> SEM FOTO </td>
+        {% endif %}
+        <td> {{jogador.nome}} </td>
+    </tr>
+
+    {% endfor %}
+
+
+</table>
+
+{% endblock %}
+
+
+
