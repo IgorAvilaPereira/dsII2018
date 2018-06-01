@@ -1,0 +1,22 @@
+<html>
+	<head>
+		
+
+	</head>
+
+<body>
+	<ul>
+	{% for noticia in vetNoticia %}
+		<li> {{ noticia.titulo }} </li>
+	{% endfor %}
+
+	</ul>
+
+<a href="/admin/tela_adicionar"> Adicionar </a>
+
+<a href="/admin/logout"> Sair </a>
+
+</body>
+
+
+</html>
