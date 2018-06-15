@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+    <title>Rough AJAX Test</title>
+    <script type="text/javascript" src="/static/script.js"></script>   
+</head>
+<body>
+<h1>Flask AJAX Test</h1>
+    <form action="" method="POST">
+        <input type="text" name="scname" id="scname">
+        <input type="hidden" name="secret" id="secret" value="shhh">
+        <input type="button" value="Submit" onclick="return loadXMLDoc()">
+    </form>
+    <div id="myDiv"></div>
+<hr>
+
+<h2> Busca noticia </h2>
+
+<input type="text" name="busca" id="busca" value="" onkeyup="return ajax_igor()">
+<!-- <input type="button" value="submit" onclick="return ajax_igor()">
+ -->
+
+<div id="buscaResultado"></div>
+
+
+</body>
+</html>
